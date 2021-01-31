@@ -1,0 +1,9 @@
+---
+- name: Install git
+  hosts: ubuntu18,ubuntu20
+  remote_user: root
+  tasks:
+    - name: Installing git package
+      apt:
+        name: git
+        state: present

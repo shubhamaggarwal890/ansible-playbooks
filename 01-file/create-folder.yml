@@ -1,0 +1,9 @@
+---
+- name: Create a folder with name as HelloAnsible
+  hosts: all
+  tasks:
+    - name: creating a folder
+      file:
+        path: ~/HelloAnsible
+        state: directory
+        mode: '0644'

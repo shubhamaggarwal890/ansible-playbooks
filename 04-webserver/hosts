@@ -1,0 +1,5 @@
+[ubuntu18]
+192.168.1.170 ansible_user=neptune ansible_become=yes ansible_become_password=1677
+
+[ubuntu20]
+192.168.1.166 ansible_user=mars ansible_become=yes ansible_become_password=1677

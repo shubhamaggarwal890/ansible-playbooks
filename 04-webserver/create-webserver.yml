@@ -1,0 +1,24 @@
+---
+- name: Install webserver and allow port on firewall
+  hosts: ubuntu18,ubuntu20
+  tasks:
+    - name: Installing apache2 package
+      apt:
+        name: apache2
+        state: present
+    - name: Change port number from 80 to 8085 in ports.conf
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: '^Listen'
+        line: 'Listen 8085'
+        state: present
+    - name: Change port number from 80 to 8085 in 000-default.conf
+      lineinfile:
+        path: /etc/apache2/sites-enabled/000-default.conf
+        regexp: '^<VirtualHost \*:'
+        line: '<VirtualHost *:8085>'
+        state: present
+    - name: Restart the apache2 service
+      service:
+        name: apache2
+        state: restarted
