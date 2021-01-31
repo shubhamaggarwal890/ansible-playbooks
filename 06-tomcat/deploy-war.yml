@@ -1,0 +1,61 @@
+---
+- name: Start tomcat server and deploy war file
+  hosts: ubuntu18,ubuntu20
+  remote_user: root
+  tasks:
+    - name: Installing java8 package
+      apt:
+        name: openjdk-8-jdk
+        state: present
+    - name: Add tomcat group
+      group:
+        name: tomcat
+        state: present
+    - name: Add tomcat user
+      user:
+        name: tomcat
+        group: tomcat
+        home: /opt/tomcat
+        shell: /bin/false
+        create_home: false
+        state: present
+    - name: Create tomcat directory
+      file:
+        path: /opt/tomcat
+        state: directory
+        owner: tomcat
+        group: tomcat
+    - name: Download tomcat from given url
+      unarchive:
+        src: https://downloads.apache.org/tomcat/tomcat-9/v9.0.41/bin/apache-tomcat-9.0.41.tar.gz
+        dest: /opt/tomcat/
+        owner: tomcat
+        group: tomcat
+        remote_src: yes
+        extra_opts: "--strip-components=1"
+    - name: Copy tomcat service file
+      copy:
+        src: ./tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+    - name: List java home directory
+      shell: update-java-alternatives -l | awk 'FNR==1 {print $3}'
+      register: java_home
+    - name: Replace with java-home in ./tomcat.service
+      lineinfile:
+          path: /etc/systemd/system/tomcat.service
+          regexp: '^Environment=JAVA_HOME'
+          line: Environment=JAVA_HOME="{{java_home.stdout}}"
+          state: present
+    - name: Start Tomcat service
+      service:
+        daemon_reload: yes
+        name: tomcat
+        state: started
+        enabled: yes
+    - name: Copy war file to tomcat webapps
+      copy:
+        src: /home/shubham/Documents/Projects/demoweb/target/demoweb-1.0-SNAPSHOT.war
+        dest: /opt/tomcat/webapps/demoweb.war
+        owner: tomcat
+        group: tomcat
+        mode: '0764'
