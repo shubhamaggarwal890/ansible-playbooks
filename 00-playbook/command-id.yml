@@ -1,0 +1,7 @@
+---
+- name: Converting ad hoc command to run id to playbook
+  hosts: all
+  tasks:
+    - name: Run id command
+      command:
+        cmd: id
