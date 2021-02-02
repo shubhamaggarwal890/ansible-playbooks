@@ -7,3 +7,9 @@
       apt:
         name: git
         state: present
+
+#Using apt module to install git/some package on the ubuntu18 and ubuntu20 managed hosts
+#We're also using root user to login to the given hosts because we need priviledged permission to install
+#You can also do it using sudo
+#Installing git package, and set state as present making sure it installs it
+#https://docs.ansible.com/ansible/2.9/modules/apt_module.html#apt-module
