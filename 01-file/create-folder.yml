@@ -6,4 +6,9 @@
       file:
         path: ~/HelloAnsible
         state: directory
-        mode: '0644'
+        mode: '0755'
+
+#Using file Module, here first we pass the path, where we want to create the directory
+#Then we tell what kind of file it is, is it a soft link, pipe, directory or what
+#We set the permission mode of that file, like 0644, 0755 and so on
+#https://docs.ansible.com/ansible/2.9/modules/file_module.html#file-module
