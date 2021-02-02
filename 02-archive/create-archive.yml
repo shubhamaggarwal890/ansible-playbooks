@@ -16,3 +16,12 @@
       file: 
         path: ~/foo.tgz
         state: absent
+
+#Writing a multiple task play in the ansible playbook, here we are using archive, command and file module
+#First we compress the home directory of our ubuntu18 and ubuntu20 groups
+#Then we list the home directory, by default you can't see the output, so you have to register the output
+# in a variable, we do it with list variable and then using debug we print the message of output
+#Finally using file module we remove the created archive, here state absent means deleting
+#https://docs.ansible.com/ansible/2.9/modules/archive_module.html#archive-module
+#https://docs.ansible.com/ansible/2.9/modules/command_module.html#command-module
+#https://docs.ansible.com/ansible/2.9/modules/file_module.html#file-module
