@@ -6,19 +6,31 @@
       apt:
         name: apache2
         state: present
-    - name: Change port number from 80 to 8085 in ports.conf
+    - name: Change port number from 80 to 8090 in ports.conf
       lineinfile:
         path: /etc/apache2/ports.conf
         regexp: '^Listen'
-        line: 'Listen 8085'
+        line: 'Listen 8090'
         state: present
-    - name: Change port number from 80 to 8085 in 000-default.conf
+    - name: Change port number from 80 to 8090 in 000-default.conf
       lineinfile:
         path: /etc/apache2/sites-enabled/000-default.conf
         regexp: '^<VirtualHost \*:'
-        line: '<VirtualHost *:8085>'
+        line: '<VirtualHost *:8090>'
         state: present
     - name: Restart the apache2 service
       service:
         name: apache2
         state: restarted
+
+#Using apt module to install apache2 package on the ubuntu18 and ubuntu20 managed hosts
+#Objective here to start the apache2 webserver and change its port number
+#We are logging in using given users in the host file
+#Then we're becoming sudo user to start the installationg process and then changing the port
+#To make changes in the file we use lineinfile module where we give path of file and regex we are looking for
+#then replace that matched regex with line we're giving, making state as present to make changes
+#After changing all the port, restart the apache2 service using service module
+#We're also using sudo user to login to the given hosts because we need priviledged permission to install
+#https://docs.ansible.com/ansible/2.9/modules/apt_module.html#apt-module
+#https://docs.ansible.com/ansible/2.9/modules/lineinfile_module.html#lineinfile-module
+#https://docs.ansible.com/ansible/2.9/modules/service_module.html#service-module
