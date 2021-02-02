@@ -9,6 +9,14 @@
         state: present
     - name: Copy jar file to home directory
       copy:
-        src: ./target/*.jar
+        src: /path/to/jar/file
         dest: ~/
         mode: '0755'
+
+#Objective here is to install java 8 jdk and copy our jar file to managed hosts
+#Using apt module to install java package on the ubuntu18 and ubuntu20 managed hosts
+#We are logging in using as root to the managed hosts
+#Once installation is done we are copying our jar file from target folder of the build java maven project
+#and pasting it to home directory of our managed hosts
+#https://docs.ansible.com/ansible/2.9/modules/apt_module.html#apt-module
+#https://docs.ansible.com/ansible/2.9/modules/copy_module.html#copy-module
