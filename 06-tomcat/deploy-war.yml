@@ -54,8 +54,38 @@
         enabled: yes
     - name: Copy war file to tomcat webapps
       copy:
-        src: /home/shubham/Documents/Projects/demoweb/target/demoweb-1.0-SNAPSHOT.war
+        src: /path/to/war/file
         dest: /opt/tomcat/webapps/demoweb.war
         owner: tomcat
         group: tomcat
         mode: '0764'
+
+#Objective here is to install java 8 jdk and deploying our war file to tomcat server on managed hosts
+#Using apt module to install java package on the ubuntu18 and ubuntu20 managed hosts
+#We are logging in using as root to the managed hosts
+#We then start our process of setting up pre-requisites for tomcat server
+#We use group module to create a tomcat group
+#We use user module to add in new user to the managed hosts
+#We create a new directory and give user and group permissions to tomcat
+#Now we have to download tomcat from remote destination and un compress it to the create directory
+#For this we use unarchive module, here we set the remote src destination on from where to download the tomcat
+#And then we uncompress to the created folder and then set the permission to tomcat user and group
+#We have a template of tomcat service in the current folder and we copy it to the managed hosts
+#To copy it we use copy module, it is copied in systemd folder
+#We list the java home directory used on various managed hosts
+#and we set this home directory path of java to our service template
+#To list we use shell module and to copy the java home path we use lineinfile module
+#Finally all the service and home cat is set, now we have to restart the server to allow it to work
+#We use service module to first reload the daemon process, so it can identity tomcat service
+#Then we start out tomcat service
+#Finally we copy our java maven project war file to the managed hosts and paste it in the appropriate folder
+#We use copy module for this and also set owner and group permissions
+#https://docs.ansible.com/ansible/2.9/modules/apt_module.html#apt-module
+#https://docs.ansible.com/ansible/2.9/modules/group_module.html#group-module
+#https://docs.ansible.com/ansible/2.9/modules/user_module.html#user-module
+#https://docs.ansible.com/ansible/2.9/modules/file_module.html#file-module
+#https://docs.ansible.com/ansible/2.9/modules/unarchive_module.html#unarchive-module
+#https://docs.ansible.com/ansible/2.9/modules/copy_module.html#copy-module
+#https://docs.ansible.com/ansible/2.9/modules/shell_module.html#shell-module
+#https://docs.ansible.com/ansible/2.9/modules/lineinfile_module.html#lineinfile-module
+#https://docs.ansible.com/ansible/2.9/modules/service_module.html#service-module
