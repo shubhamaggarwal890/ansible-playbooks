@@ -1,0 +1,13 @@
+---
+- name: Get infos on container
+  hosts: all
+  tasks:
+    - name: Get information
+      docker_container_info:
+        name: my_running_app
+      register: result
+
+    - debug: msg="{{result}}"
+
+#A basic docker based container info
+#https://docs.ansible.com/ansible/2.9/modules/docker_container_info_module.html#docker-container-info-module

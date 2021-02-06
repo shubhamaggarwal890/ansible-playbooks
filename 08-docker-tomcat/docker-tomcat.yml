@@ -1,0 +1,26 @@
+---
+- name: Start an tomcat docker container
+  hosts: all
+  tasks:
+    - name: Pull tomcat image
+      docker_image:
+        name: tomcat
+        source: pull
+        
+    - name: Running tomcat image
+      docker_container:
+        name: run_tomcat
+        image: tomcat
+        state: started
+        ports:
+          - "9999:8080"
+    - name: Copy war image
+      shell: docker cp Documents/Projects/demoweb/target/*.war run_tomcat:/usr/local/tomcat/webapps/demo.war
+
+#This one is pretty similar to tomcat one but here rather than installing everything from scratch we are using
+#docker image of tomcat
+#Here we are pulling docker image first and then running the docker image using docker_container module
+#Bridge the ports 
+#and finally copy the war file from local directory to tomcat directory in docker container
+#https://docs.ansible.com/ansible/2.9/modules/docker_image_module.html#docker-image-module
+#https://docs.ansible.com/ansible/2.9/modules/docker_container_module.html#docker-container-module
